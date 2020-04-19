@@ -1,0 +1,21 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-title> Información </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div id="custom-overlay">
+    <div class="flb">
+      <ion-title> {{ mensajeAMostrar }} </ion-title>
+      <ion-button color="primary" 
+                  expand="full" 
+                  (click)="salir()"
+                  class="boton-modal">
+        Aceptar
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

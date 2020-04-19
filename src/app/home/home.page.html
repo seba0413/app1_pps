@@ -1,20 +1,32 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
+      <ion-icon style="color: aliceblue" name="menu"></ion-icon>
+    </ion-button>
     <ion-title>
-      Blank
+      Relevamiento Visual
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content>
+  <div class="ion-padding">
+    <div style="text-align: center;">
+      <ion-label>
+        <h1><b>Cosas Lindas</b></h1>
+      </ion-label>
+    </div>
+    <ion-button class="marks-buttons" color="primary" expand="block" (click)="sacarFoto(0)">
+      <img src="../../assets/check.png" alt="">
+    </ion-button>
+    <div style="text-align: center;">
+      <ion-label>
+        <h1><b>Cosas Feas</b></h1>
+      </ion-label>
+    </div>
+    <ion-button class="marks-buttons" color="primary" expand="block" (click)="sacarFoto(1)">
+      <img src="../../assets/cross.png" alt="">
+    </ion-button>
   </div>
+  <img *ngIf='imagen' [src]="imagen" alt="">
 </ion-content>

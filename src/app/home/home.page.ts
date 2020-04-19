@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { CameraService } from '../servicios/camera.service';
+import { ModalInfoService } from '../helpers/modal-info.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +11,54 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  imagen: any;
+
+  constructor( public actionSheetController: ActionSheetController,
+               private router: Router,
+               private cameraService: CameraService,
+               private modalInfoService: ModalInfoService ) {}
+
+  sacarFoto( categoria: number ) {
+    this.cameraService.sacarFoto()
+    .then( datosImagen => {
+      if (datosImagen !== 'No Image Selected') {
+        this.subirFoto(datosImagen, categoria);
+      }
+    });
+  }
+
+  subirFoto( datosImagen, categoria ) {
+    this.cameraService.guardarFoto( datosImagen, categoria )
+    .then(() => {
+      this.modalInfoService.abrirModalInfo('Foto duardada', 'success');
+    })
+    .catch( error => {
+      this.modalInfoService.abrirModalInfo('Error al guardar la foto', 'error');
+    });
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Opciones',
+      buttons: [
+        {
+          text: 'Galería',
+          role: 'destructive',
+          handler: () => {
+            this.router.navigate(['/galeria']);
+          }
+        },
+        {
+          text: 'Desconectarse',
+          role: 'destructive',
+          icon: 'log-out',
+          handler: () => {
+            // this.OnLogOut();
+          },
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
 
 }
