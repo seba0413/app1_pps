@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
+      <ion-icon style="color: aliceblue" name="menu"></ion-icon>
+    </ion-button>
+    <ion-title>Galería</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <section class="ion-padding">
+
+    <ion-segment  scrollable 
+                  mode="md" 
+                  color="primary"
+                  (ionChange)="traer( $event )">
+
+      <ion-segment-button mode="md" 
+                          name = "categoriaActual"                       
+                          *ngFor="let categoria of categorias"
+                          [value]="categoria.id">
+
+      <ion-label text-capitalize>{{ categoria.tipo }}</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+  </section>
+
+  <div *ngIf="graficos">
+    <div class="ion-padding">
+      <div style="margin-bottom: 3%;"> Fotos de cosas lindas </div>
+      <div style="display: block"><canvas id="fotos-lindas"></canvas></div>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let foto of fotosLindas">
+          <a href="/galeria#{{foto.id}}"> {{foto.id}} </a>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="ion-padding">
+      <div style="margin-bottom: 3%;"> Fotos de cosas feas </div>
+      <div style="display: block"><canvas id="fotos-feas"></canvas></div>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let foto of fotosFeas">
+          <a href="/galeria#{{foto.id}}"> {{foto.id}} </a>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-item-divider>
+      <ion-label>
+        Fotos
+      </ion-label>
+    </ion-item-divider>
+
+  </div>
+
+  <ion-card [id] = "file.id" *ngFor="let file of files" style="background-color: #3880ff;">
+    <img [src]="file.url" />
+    <ion-card-header >
+      <ion-card-subtitle style="color: white">Fecha de creación: {{file.creada | date:'dd/MM/yyyy h:mm a'}}</ion-card-subtitle>
+      <ion-card-title>Usuario: {{file.mail}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="box">
+        <ion-button *ngIf="!graficos" class="button-thumb boton-like" (click)="votar(file.id)">
+          <ion-icon *ngIf="!file.votado"  name="heart-outline"></ion-icon>
+          <ion-icon *ngIf="file.votado"  name="heart"></ion-icon>
+        </ion-button>
+        <ion-label *ngIf="!graficos" class="votos"> {{file.votos.length}} </ion-label>
+          <div *ngIf="file.tipo === 'linda'" class="divImagen">
+            <img src="../../../assets/check.png" class="imagen" alt="">
+          </div>
+          <div *ngIf="file.tipo === 'fea'" class="divImagen">
+            <img src="../../../assets/cross.png" class="imagen" alt="">
+          </div>      
+    </ion-card-content>
+  </ion-card>
+</ion-content>

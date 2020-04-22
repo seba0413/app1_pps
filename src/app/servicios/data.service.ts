@@ -4,6 +4,7 @@ import { AuthService } from '../servicios/auth.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { map } from 'rxjs/operators';
+import { Imagen } from '../modelos/imagen';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,13 @@ export class DataService {
     private db: AngularFirestore,
     private authService: AuthService,
     private db2: AngularFireDatabase,
-    private fStorage: AngularFireStorage) {
+    private fStorage: AngularFireStorage ) {
 
       this.dbRef = this.db.collection('files');
   }
 
   guardarEnStorage( datosImagen ): AngularFireUploadTask {
-    this.nombreImagen = `${new Date().getTime()}.jpeg`;
+    this.nombreImagen = this.generarNombreFoto( this.obtenerNombreUsuario() );
     const imagen = `data:image/jpeg;base64,${datosImagen}`;
     return this.fStorage.ref(`files/${this.nombreImagen}`).putString(imagen, 'data_url');
   }
@@ -40,7 +41,63 @@ export class DataService {
       contentType: metaData.contentType,
       usuario: this.authService.getCurrentUserId(),
       mail: this.authService.getCurrentUserMail(),
-      tipo: categoria === 0 ? 'linda' : 'fea'
+      tipo: categoria === 0 ? 'linda' : 'fea',
     });
+  }
+
+  getImages() {
+    return this.dbRef.snapshotChanges().pipe(
+      map(files => {
+        return files.map(c => {
+          const data = c.payload.doc.data() as Imagen;
+          data.id = c.payload.doc.id;
+          return data;
+        }).sort((a, b) => {
+          return new Date(b.creada).getTime() - new Date(a.creada).getTime();
+        });
+      })
+    );
+  }
+
+  getByTipo( tipo: number ) {
+    return this.dbRef.snapshotChanges().pipe(
+      map(files => {
+        return files.map(c => {
+          const data = c.payload.doc.data() as Imagen;
+          data.id = c.payload.doc.id;
+          return data;
+        })
+        .filter(f => {
+          if (tipo === 1) {
+            return f.tipo === 'linda';
+          }
+          if (tipo === 2) {
+            return f.tipo === 'fea';
+          } else {
+            return f;
+          }
+        })
+        .sort((a, b) => {
+          return new Date(b.creada).getTime() - new Date(a.creada).getTime();
+        });
+      })
+    );
+  }
+
+  updateDatabase(id, votosParam) {
+    console.log('update id: ', id, 'votos: ', votosParam);
+    return this.dbRef.doc(id).update({
+      votos: votosParam
+    });
+  }
+
+  generarNombreFoto( usuario: string ) {
+    const fechaArray = new Date().toISOString().split('T');
+    return usuario + '_' + fechaArray[0];
+  }
+
+ obtenerNombreUsuario() {
+    const usuario = this.authService.getCurrentUserMail().split('@');
+    return usuario[0];
   }
 }
