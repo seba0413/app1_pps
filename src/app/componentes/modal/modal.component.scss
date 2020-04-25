@@ -1,22 +1,15 @@
-#custom-overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100000;
-    width:100%;
+ion-content {
+    --background: lightgrey;
 }
-
-.flb {
-    height:100%;
-    width:100%;
+  
+.box-info {
+    margin-top: 60%;
     display: flex;
-    align-items: center ;
+    align-items: center;
     justify-content: center;
+    font-size: xx-large;
 }
 
-.boton-modal {
-    align-self: flex-end;
-    width: 100%;
+.box-boton {
+    margin-top: 70%;
 }

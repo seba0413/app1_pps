@@ -90,7 +90,7 @@ export class GaleriaPage implements OnInit {
   traer( event ) {
     switch ( parseInt(event.detail.value, 10 )) {
       case 0:
-        this.limpiarGraficos();
+        this.graficos = false;
         this.dataServ.getByTipo(0).subscribe(files => {
           console.log('files: ', files);
           this.setTipoVoto(files);
@@ -98,7 +98,7 @@ export class GaleriaPage implements OnInit {
         });
         break;
       case 1:
-        this.limpiarGraficos();
+        this.graficos = false;
         this.fotosLindas = [];
         this.fotosFeas = [];
         this.dataServ.getByTipo(1).subscribe(files => {
@@ -108,7 +108,7 @@ export class GaleriaPage implements OnInit {
         });
         break;
       case 2:
-        this.limpiarGraficos();
+        this.graficos = false;
         this.fotosLindas = [];
         this.fotosFeas = [];
         this.dataServ.getByTipo(2).subscribe(files => {
@@ -118,6 +118,7 @@ export class GaleriaPage implements OnInit {
         });
         break;
       case 3:
+        this.limpiarGraficos();
         this.graficos = true;
         this.dataServ.getByTipo(0).subscribe(files => {
           console.log('files: ', files);
@@ -150,7 +151,7 @@ export class GaleriaPage implements OnInit {
 
   armarDatosGraficoFotosFeas() {
     for ( const foto of this.fotosFeas ) {
-      this.arrayLabelsFotosFeas.push( foto.usuario );
+      this.arrayLabelsFotosFeas.push( foto.id );
       this.arrayDataFotosFeas.push( foto.votos.length );
       const color = this.generarColor();
       this.arrayColoresFotosFeas.push( color );
@@ -201,7 +202,6 @@ export class GaleriaPage implements OnInit {
   }
 
   limpiarGraficos() {
-    this.graficos = false;
     this.fotosFeas = [];
     this.fotosLindas = [];
     this.arrayLabelsFotosFeas = [];

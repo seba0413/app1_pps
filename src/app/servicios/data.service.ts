@@ -92,8 +92,14 @@ export class DataService {
   }
 
   generarNombreFoto( usuario: string ) {
-    const fechaArray = new Date().toISOString().split('T');
-    return usuario + '_' + fechaArray[0];
+    const arrayFechaCompleta =  new Date().toISOString().split('T');
+    // Fecha sin año
+    const arrayFecha = arrayFechaCompleta[0].split('-');
+    const fechaSinAnio = arrayFecha[2] + '-' + arrayFecha[1];
+    // Hora con minutos y segundos
+    const arrayHoraCompleta = arrayFechaCompleta[1].split('.');
+    const nombreFinal = usuario + ' ' + fechaSinAnio + ' ' + arrayHoraCompleta[0];
+    return nombreFinal;
   }
 
  obtenerNombreUsuario() {

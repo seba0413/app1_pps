@@ -1,21 +1,23 @@
 <ion-header no-border>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="tertiary">
     <ion-title> Información </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
-  <div id="custom-overlay">
-    <div class="flb">
-      <ion-title> {{ mensajeAMostrar }} </ion-title>
-      <ion-button color="primary" 
+  <div>
+    <div class="box-info">
+      <ion-label> {{ mensajeAMostrar }} </ion-label>  
+    </div>
+    <div class="box-boton">
+      <ion-button color="tertiary" 
                   expand="full" 
                   (click)="salir()"
-                  class="boton-modal">
+                  >
         Aceptar
       </ion-button>
     </div>
-  </div>
+  </div>     
 
 </ion-content>
