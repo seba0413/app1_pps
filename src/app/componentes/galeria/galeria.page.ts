@@ -180,7 +180,7 @@ export class GaleriaPage implements OnInit {
     // tslint:disable-next-line: no-angle-bracket-type-assertion
     const ctx = ( <any> document.getElementById('fotos-feas')).getContext('2d');
     const chart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
           labels: this.arrayLabelsFotosFeas,
           datasets: [{
